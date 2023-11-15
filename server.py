@@ -5,12 +5,29 @@ import json
 
 app = Flask('Test')
 
+num_duration = 0
+num_energy = 0
 
+#example landing page just displays hi
 @app.route('/', methods=['GET'])
 def test1():
-    return "hi"
+    return "duration: " + str(num_duration) + " energy: " + str(num_energy)
 
+#handles incoming post request
+@app.route('/post_test', methods=['POST', 'GET'])
+def receive_string():
+    global num_duration
+    global num_energy
+    # Extract the data from the POST request
+    duration = request.json.get('duration')
+    energy = request.json.get('energy')
 
+    #These are 'not accessed'
+    num_duration = float(duration)
+    num_energy = float(energy)
+
+    # Return a response
+    return jsonify({"duration": duration, "energy": energy}), 200
 
 
 if __name__ == '__main__':
