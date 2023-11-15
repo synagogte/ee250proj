@@ -11,7 +11,7 @@ app = Flask('Test')
 num_duration = 0
 num_energy = 0
 
-#example landing page just displays hi
+#main landing page
 @app.route('/', methods=['GET'])
 def test1():
     return "duration: " + str(num_duration) + " energy: " + str(num_energy)
@@ -37,4 +37,4 @@ def receive_string():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=5000)

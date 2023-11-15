@@ -2,8 +2,8 @@ import requests
 #TODO: import grove stuff
 
 # The URL for the Flask server's endpoint
-url = "http://10.25.95.81:5000/"
-posturl = "http://10.25.95.81:5000/post_test"
+url = "http://172.20.10.5:5000/"
+posturl = "http://172.20.10.5:5000/post_test"
 
 #get example:
 # Send a GET request to the server
