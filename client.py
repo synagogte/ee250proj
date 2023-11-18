@@ -1,5 +1,12 @@
 import requests
-#TODO: import grove stuff
+import sys
+import time
+sys.path.append('/home/pi/Dexter/GrovePi/Software/Python')
+
+import grovepi
+
+potentiometer = 2 #port A2
+soundsensor = 1 #port A1
 
 # The URL for the Flask server's endpoint
 url = "http://172.20.10.5:5000/"
@@ -32,3 +39,12 @@ if response.status_code == 200:
 else:
     # Print an error message if something went wrong
     print("Failed to send data to the server. Status code:", response.status_code)
+
+
+
+while(True):
+    p = grovepi.analogRead(potentiometer)
+    s = grovepi.analogRead(soundsensor)
+    print(p)
+    print(s)
+    time.sleep(0.2)
