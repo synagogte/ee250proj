@@ -9,7 +9,8 @@ import json
 
 app = Flask('Test')
 
-track_list = []
+track_list = {}
+features_dict = {}
 
 client_id = "83825bd6133a46f89a4c9e1fdc903b64"
 client_secret =  "8a215f2776684ff6acfcce1295b9eafd"
@@ -54,28 +55,28 @@ def callback():
 
     search_response = requests.get(USER_TOP_URL, params=params, headers=headers)
     search_data = search_response.json()
-    # print(len(search_data))
-    # print(search_data)
 
     # Print the track information
     if 'items' in search_data:
         for track in search_data['items']:
             print(f"Track: {track['name']}, Artist: {track['artists'][0]['name']}, id: {track['id']}")
-            track_list.append(track['id']) 
+            track_list[track['name']] =  track['id']
     else:
         print("No tracks found.")
     print(len(track_list))
 
     FEATURES_URL = 'https://api.spotify.com/v1/audio-features'
-    for id in track_list:
-        print("id: ", id)
-        params = {'id': id}
+    for name, track_id in track_list.items():
+        print("name:", name, "id: ", track_id)
+        params = {'ids': track_id}
         search_response = requests.get(FEATURES_URL, params=params, headers=headers)
         search_data = search_response.json()
-        print(search_data)
-
-
-    return jsonify(search_data)
+        #print(search_data)
+        if 'audio_features' in search_data:
+            for features in search_data['audio_features']:
+                print(features["loudness"], features["duration_ms"])
+                features_dict[name] = (features["loudness"], features["duration_ms"])
+    return jsonify(features_dict)
 
 
 
