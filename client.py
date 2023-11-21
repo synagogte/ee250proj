@@ -41,10 +41,21 @@ else:
     print("Failed to send data to the server. Status code:", response.status_code)
 
 
-
+counter = 0
+s_avg = 0
 while(True):
     p = grovepi.analogRead(potentiometer)
     s = grovepi.analogRead(soundsensor)
-    print(p)
-    print(s)
     time.sleep(0.2)
+    s_avg = s_avg + s
+    counter = counter + 1
+    if counter == 20:
+        counter = 0
+        s_avg = s_avg / 20
+        data = {'duration': p, 'energy': s_avg}
+        response = requests.post(posturl, json=data)
+        s_avg = 0
+        get = requests.get(url)
+        print(get.text)
+
+
